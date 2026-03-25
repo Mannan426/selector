@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun Selector</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(270deg, #ff9ecb, #ff6aa2, #ffc1e3);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* floating particles */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: moveParticles 25s linear infinite;
+}
+
+@keyframes moveParticles {
+  from { transform: translateY(0); }
+  to { transform: translateY(-200px); }
+}
+
+.wrapper {
+  width: 95%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media(max-width: 700px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.01);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.85);
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(255, 150, 200, 0.8);
+}
+
+/* button enhancements */
+button {
+  margin-top: 10px;
+  padding: 14px;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(45deg, #ff4d88, #ff85b3);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* shimmer */
+button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  transition: 0.5s;
+}
+
+button:hover::after {
+  left: 100%;
+}
+
+/* ripple */
+button:active {
+  transform: scale(0.96);
+}
+
+.records {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.record-item {
+  padding: 12px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+/* color accents */
+.record-male { background: rgba(150,180,255,0.4); }
+.record-female { background: rgba(255,150,200,0.4); }
+.record-mermaid { background: rgba(150,255,220,0.4); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.small {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.clear-btn {
+  margin-top: 10px;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  border: none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <div class="card">
+    <h1>✨ tell me about you ✨</h1>
+
+    <input type="text" id="name" placeholder="your name here..." />
+
+    <select id="gender">
+      <option value="">select your gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Mermaid 🧜‍♀️">Mermaid 🧜‍♀️</option>
+    </select>
+
+    <button onclick="saveData(event)">save</button>
+  </div>
+
+  <div class="card">
+    <h1>✨ saved entries ✨</h1>
+    <div class="records" id="records"></div>
+    <button class="clear-btn" onclick="clearAll()">clear all</button>
+  </div>
+
+</div>
+
+<script>
+let records = JSON.parse(localStorage.getItem('records')) || [];
+
+function saveData(e) {
+  const name = document.getElementById('name').value.trim();
+  const gender = document.getElementById('gender').value;
+
+  if (!name || !gender) return;
+
+  records.push({
+    name,
+    gender,
+    time: new Date().toLocaleTimeString()
+  });
+
+  localStorage.setItem('records', JSON.stringify(records));
+  displayRecords();
+
+  document.getElementById('name').value = '';
+  document.getElementById('gender').value = '';
+}
+
+function displayRecords() {
+  const container = document.getElementById('records');
+  container.innerHTML = '';
+
+  records.slice().reverse().forEach(rec => {
+    const div = document.createElement('div');
+
+    let cls = 'record-item ';
+    if (rec.gender.includes('Male')) cls += 'record-male';
+    else if (rec.gender.includes('Female')) cls += 'record-female';
+    else cls += 'record-mermaid';
+
+    div.className = cls;
+
+    div.innerHTML = `
+      <div>
+        <b>${rec.name}</b> • ${rec.gender}<br>
+        <span class="small">${rec.time}</span>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function clearAll() {
+  records = [];
+  localStorage.removeItem('records');
+  displayRecords();
+}
+
+window.onload = displayRecords;
+</script>
+
+</body>
+</html>
