@@ -46,6 +46,81 @@ body::before {
   to { transform: translateY(-200px); }
 }
 
+/* 🌙 MOON */
+.moon {
+  position: fixed;
+  top: 8%;
+  right: 10%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #ffe6f2 40%, rgba(255,255,255,0.1) 70%);
+  box-shadow: 
+    0 0 60px rgba(255,255,255,0.8),
+    0 0 120px rgba(255,180,220,0.6),
+    0 0 200px rgba(255,150,200,0.4);
+  filter: blur(1px);
+  animation: moonFloat 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes moonFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 🌷 TULIPS */
+.tulips {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.tulip {
+  position: absolute;
+  bottom: -60px;
+  font-size: 22px;
+  animation: floatTulip linear infinite;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(255,180,220,0.6));
+}
+
+@keyframes floatTulip {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+}
+
+/* ✨ SPARKLES */
+.sparkle-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sparkle-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: sparkleMove 8s linear infinite;
+}
+
+@keyframes sparkleMove {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
+}
+
 /* main line */
 .hero-line {
   text-align: center;
@@ -61,6 +136,7 @@ body::before {
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   animation: fadeIn 1s ease;
+  z-index: 2;
 }
 
 .hero-line span {
@@ -69,7 +145,7 @@ body::before {
   text-shadow: 0 0 10px rgba(255,255,255,0.6);
 }
 
-/* 💖 romantic exam line */
+/* exam line */
 .exam-line {
   text-align: center;
   font-size: 18px;
@@ -84,6 +160,7 @@ body::before {
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   animation: floaty 4s ease-in-out infinite;
+  z-index: 2;
 }
 
 .exam-line span {
@@ -104,6 +181,7 @@ body::before {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding-bottom: env(safe-area-inset-bottom);
+  z-index: 2;
 }
 
 @media(max-width: 700px) {
@@ -119,7 +197,6 @@ body::before {
   padding: 25px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.2);
   border: 1px solid rgba(255,255,255,0.3);
-  position: relative;
   transition: transform 0.3s ease;
 }
 
@@ -142,98 +219,42 @@ input, select {
   outline: none;
   font-size: 14px;
   background: rgba(255,255,255,0.85);
-  transition: 0.3s;
-}
-
-input:focus, select:focus {
-  transform: scale(1.02);
-  box-shadow: 0 0 12px rgba(255, 150, 200, 0.8);
 }
 
 button {
   margin-top: 10px;
   padding: 14px;
   width: 100%;
-  border: none;
   border-radius: 14px;
   background: linear-gradient(45deg, #ff4d88, #ff85b3);
   color: white;
-  font-size: 15px;
+  border: none;
   cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-  transition: 0.5s;
-}
-
-button:hover::after {
-  left: 100%;
-}
-
-button:active {
-  transform: scale(0.96);
 }
 
 .records {
   max-height: 350px;
   overflow-y: auto;
-  padding-right: 5px;
 }
 
 .record-item {
   padding: 12px;
   border-radius: 15px;
   margin-bottom: 10px;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  animation: fadeIn 0.4s ease;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
 }
-
-.record-male { background: rgba(150,180,255,0.4); }
-.record-female { background: rgba(255,150,200,0.4); }
-.record-mermaid { background: rgba(150,255,220,0.4); }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.small {
-  font-size: 11px;
-  opacity: 0.7;
-}
-
-.clear-btn {
-  margin-top: 10px;
-  background: transparent;
-  color: #fff;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-  border: none;
-}
-
 </style>
 </head>
 
 <body>
+
+<!-- 🌙 Moon -->
+<div class="moon"></div>
+
+<!-- 🌷 Tulips -->
+<div class="tulips"></div>
+
+<!-- ✨ Sparkles -->
+<div class="sparkle-bg"></div>
 
 <div class="hero-line">
   they say mermaids are rare… but the <span>only real one</span> I know  
@@ -249,23 +270,20 @@ button:active {
 
   <div class="card">
     <h1>✨ tell me about you ✨</h1>
-
     <input type="text" id="name" placeholder="your name here..." />
-
     <select id="gender">
       <option value="">select your gender</option>
       <option value="Male">Male</option>
       <option value="Female">Female</option>
       <option value="Mermaid 🧜‍♀️">Mermaid 🧜‍♀️</option>
     </select>
-
-    <button onclick="saveData(event)">save</button>
+    <button onclick="saveData()">save</button>
   </div>
 
   <div class="card">
     <h1>✨ saved entries ✨</h1>
     <div class="records" id="records"></div>
-    <button class="clear-btn" onclick="clearAll()">clear all</button>
+    <button onclick="clearAll()">clear all</button>
   </div>
 
 </div>
@@ -273,18 +291,43 @@ button:active {
 <script>
 let records = JSON.parse(localStorage.getItem('records')) || [];
 
-function saveData(e) {
+/* 🌷 tulips */
+const tulipContainer = document.querySelector('.tulips');
+setInterval(() => {
+  const tulip = document.createElement('div');
+  tulip.classList.add('tulip');
+  tulip.innerHTML = "🌷";
+
+  tulip.style.left = Math.random() < 0.5 
+    ? (Math.random() * 20) + "vw"
+    : (80 + Math.random() * 20) + "vw";
+
+  tulip.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+  tulipContainer.appendChild(tulip);
+  setTimeout(() => tulip.remove(), 10000);
+}, 500);
+
+/* ✨ sparkles */
+const sparkleContainer = document.querySelector('.sparkle-bg');
+setInterval(() => {
+  const dot = document.createElement('div');
+  dot.classList.add('sparkle-dot');
+
+  dot.style.left = Math.random() * 100 + "vw";
+  dot.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+  sparkleContainer.appendChild(dot);
+  setTimeout(() => dot.remove(), 10000);
+}, 400);
+
+/* original logic */
+function saveData() {
   const name = document.getElementById('name').value.trim();
   const gender = document.getElementById('gender').value;
-
   if (!name || !gender) return;
 
-  records.push({
-    name,
-    gender,
-    time: new Date().toLocaleTimeString()
-  });
-
+  records.push({ name, gender, time: new Date().toLocaleTimeString() });
   localStorage.setItem('records', JSON.stringify(records));
   displayRecords();
 
@@ -295,24 +338,10 @@ function saveData(e) {
 function displayRecords() {
   const container = document.getElementById('records');
   container.innerHTML = '';
-
   records.slice().reverse().forEach(rec => {
     const div = document.createElement('div');
-
-    let cls = 'record-item ';
-    if (rec.gender.includes('Male')) cls += 'record-male';
-    else if (rec.gender.includes('Female')) cls += 'record-female';
-    else cls += 'record-mermaid';
-
-    div.className = cls;
-
-    div.innerHTML = `
-      <div>
-        <b>${rec.name}</b> • ${rec.gender}<br>
-        <span class="small">${rec.time}</span>
-      </div>
-    `;
-
+    div.className = 'record-item';
+    div.innerHTML = `<b>${rec.name}</b> • ${rec.gender}`;
     container.appendChild(div);
   });
 }
