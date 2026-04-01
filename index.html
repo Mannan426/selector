@@ -242,6 +242,72 @@ button {
   border-radius: 15px;
   margin-bottom: 10px;
 }
+
+/* 💖 GOOD MORNING ADDITION */
+.goodmorning-line {
+  position: relative;
+  text-align: center;
+  font-size: 20px;
+  max-width: 720px;
+  margin-bottom: 20px;
+  padding: 14px 22px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(18px);
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+  opacity: 0;
+  transform: translateY(25px);
+  animation: gmFade 1.2s ease forwards, gmGlow 4s ease-in-out infinite 1.2s;
+  z-index: 2;
+}
+
+/* fade + slide */
+@keyframes gmFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* soft glow breathing */
+@keyframes gmGlow {
+  0%,100% {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2),
+                0 0 8px rgba(255,255,255,0.3);
+  }
+  50% {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2),
+                0 0 20px rgba(255,200,230,0.6);
+  }
+}
+
+/* shimmer */
+.goodmorning-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.5),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: gmShimmer 6s infinite;
+}
+
+@keyframes gmShimmer {
+  0% { left: -120%; }
+  50% { left: 120%; }
+  100% { left: 120%; }
+}
 </style>
 </head>
 
@@ -255,6 +321,13 @@ button {
 
 <!-- ✨ Sparkles -->
 <div class="sparkle-bg"></div>
+
+<div class="goodmorning-line" id="gmLine">
+  good morning, Miss Sanchita ✨<br><br>
+  I hope your day starts easy  
+  your outfit comes together just the way you imagined  
+  and you walk out knowing you didn’t really need to try that hard anyway  
+</div>
 
 <div class="hero-line">
   they say mermaids are rare… but the <span>only real one</span> I know  
@@ -353,6 +426,35 @@ function clearAll() {
 }
 
 window.onload = displayRecords;
+/* ✨ subtle sparkle near good morning text */
+const gmLine = document.getElementById('gmLine');
+
+setInterval(() => {
+  if (!gmLine) return;
+
+  const sparkle = document.createElement('div');
+  sparkle.style.position = 'absolute';
+  sparkle.style.width = '3px';
+  sparkle.style.height = '3px';
+  sparkle.style.background = 'white';
+  sparkle.style.borderRadius = '50%';
+  sparkle.style.opacity = '0.7';
+
+  sparkle.style.left = Math.random() * gmLine.offsetWidth + "px";
+  sparkle.style.top = (40 + Math.random() * 40) + "%";
+
+  sparkle.style.transition = "all 1.5s ease";
+
+  gmLine.appendChild(sparkle);
+
+  setTimeout(() => {
+    sparkle.style.transform = "translateY(-30px)";
+    sparkle.style.opacity = "0";
+  }, 50);
+
+  setTimeout(() => sparkle.remove(), 1500);
+
+}, 900);
 </script>
 
 </body>
